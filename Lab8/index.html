@@ -6,7 +6,89 @@
 		<link rel="stylesheet" href="styles.css" />
 	</head>
 	<body>
-		<canvas id="canvas1"></canvas>
-		<script src="index.js"></script>
+		<canvas id="myCanvas"></canvas>
+		<button id="startBtn">Start</button>
+		<button id="resetBtn">Reset</button>
+
+		<script>
+			const canvas = document.getElementById("myCanvas");
+			const ctx = canvas.getContext("2d");
+			let balls = [];
+			const numBalls = 10;
+			const minDistance = 50;
+			const fps = 60;
+			let animationId;
+
+			function Ball(x, y, vx, vy) {
+				this.x = x;
+				this.y = y;
+				this.vx = vx;
+				this.vy = vy;
+			}
+
+			for (let i = 0; i < numBalls; i++) {
+				let x = Math.random() * canvas.width;
+				let y = Math.random() * canvas.height;
+				let vx = Math.random() * 4 - 2;
+				let vy = Math.random() * 4 - 2;
+				balls.push(new Ball(x, y, vx, vy));
+			}
+
+			function draw() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				for (let i = 0; i < numBalls; i++) {
+					let ball1 = balls[i];
+					ctx.beginPath();
+					ctx.arc(ball1.x, ball1.y, 10, 0, 2 * Math.PI);
+					ctx.fill();
+
+					for (let j = i + 1; j < numBalls; j++) {
+						let ball2 = balls[j];
+						let distance = Math.sqrt(
+							Math.pow(ball1.x - ball2.x, 2) + Math.pow(ball1.y - ball2.y, 2)
+						);
+						if (distance < minDistance) {
+							ctx.beginPath();
+							ctx.moveTo(ball1.x, ball1.y);
+							ctx.lineTo(ball2.x, ball2.y);
+							ctx.stroke();
+						}
+					}
+
+					ball1.x += ball1.vx;
+					ball1.y += ball1.vy;
+
+					if (ball1.x + 10 > canvas.width || ball1.x - 10 < 0) {
+						ball1.vx = -ball1.vx;
+					}
+					if (ball1.y + 10 > canvas.height || ball1.y - 10 < 0) {
+						ball1.vy = -ball1.vy;
+					}
+				}
+			}
+
+			const startBtn = document.getElementById("startBtn");
+			startBtn.addEventListener("click", function () {
+				if (animationId === undefined) {
+					animationId = setInterval(draw, 1000 / fps);
+				}
+			});
+
+			const resetBtn = document.getElementById("resetBtn");
+			resetBtn.addEventListener("click", function () {
+				clearInterval(animationId);
+				animationId = undefined;
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				balls = [];
+				for (let i = 0; i < numBalls; i++) {
+					let x = Math.random() * canvas.width;
+					let y = Math.random() * canvas.height;
+					let vx = Math.random() * 4 - 2;
+					let vy = Math.random() * 4 - 2;
+					balls.push(new Ball(x, y, vx, vy));
+				}
+			});
+		</script>
 	</body>
 </html>
