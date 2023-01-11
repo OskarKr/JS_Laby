@@ -1,60 +1,97 @@
-let recording = false
-let trackNumber = 1
+var organizer = function(event) {
+  var keycode = event.keyCode;
 
-function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-    if (!audio) return null;
+  animation(keycode);
+  playSound(keycode);
+
+  if (keycode === 82 && isRecording === false) { // Wants to start recording
+    recordingInitialisation();
+  }
+
+  else if (keycode === 82 && isRecording === true) { // Wants to stop recording
+    stopRecording();
+  }
+
+  else if (keycode !== 82 && isRecording === true) { // Wants to record keys
+    recording(keycode);
+  }
+
+  else if (keycode === 80 && isRecording === false) { // Wants to play
+    playRecords();
+  }
+
+}
+
+
+function animation(keycode) {
+  var key = document.querySelector(`.key[data-key="${keycode}"]`) || document.querySelector(`.record-block[data-key="${keycode}"]`) || document.querySelector(`.play-block[data-key="${keycode}"]`);
+  if (!key) return;
+
+  if (keycode !== 82 && keycode !== 80) { // basics sample
     key.classList.add("playing");
-    audio.currentTime = 0;
-    audio.play();
-    setTimeout(function() {
-      key.classList.remove("playing");
-    }, 100);
+    setTimeout(function() { key.classList.remove("playing"); }, 100);
   }
+  else if (keycode === 82) { // recording
+    (!isRecording) ? key.classList.add("recording") : key.classList.remove("recording");
+  }
+  else if (keycode === 80 && isPlaying === false) { // playing song
+    key.classList.add("playing-song");
+  }
+}
 
-  window.addEventListener("keydown", playSound);
 
-  let track1 = []
-  let track2 = []
-  let track3 = []
-  let track4 = []
+function playSound(keycode) {
+  var audio = document.querySelector(`audio[data-key="${keycode}"]`);
+  if (!audio) return;
+  audio.load();
+  audio.play();
+}
 
-  function record(event) {
-    if (!recording) {
-      return;
+
+function recordingInitialisation() {
+  isRecording = true;
+  instruments.splice(0, instruments.length);
+  timing.splice(0, timing.length);
+}
+
+
+function stopRecording() {
+  isRecording = false;
+  document.querySelector(`.play-block[data-key="80"]`).style.opacity = 1;
+}
+
+
+function recording(keycode) {
+  instruments.push(keycode);
+  timing.push(Date.now());
+}
+
+
+function playRecords() {
+  if (isPlaying === false) {
+    isPlaying = true;
+
+    var now = Date.now();
+    var timingDiff = [];
+    timing.forEach( time => timingDiff.push(time - (timing[0] - 1)));
+
+    for (let index = 0; index < instruments.length; index++) {
+      setTimeout(() => {
+        playSound(instruments[index]);
+      }, timingDiff[index]);
     }
-    const sound = {
-      key: event.key,
-      time: Date.now()
-    };
-    const trackName = eval('track'+trackNumber)
-    trackName.push(sound);
-    console.log(track1);
-  }
 
-  function setRecording(number) {
-    recording = true
-    if (number) {
-      trackNumber = number
+    setTimeout(() => {
+      isPlaying = false;
+      document.querySelector(`.play-block[data-key="80"]`).classList.remove("playing-song")
+      }, timingDiff[timingDiff.length - 1]);
     }
+  
+}
 
-  }
 
-  window.addEventListener('keypress', record)
-
-  function playBack(number){
-    let pauseTime;
-    const trackName = eval('track'+number);
-    trackName.forEach(element => {
-      if (element === trackName[0]) {
-        pauseTime = element.time;
-      }
-      if(element.key) {
-        setTimeout(() => {
-          playSound(element.key)
-        }, element.time - pauseTime)
-      }
-      console.log(pauseTime);
-    });
-  }
+var isPlaying = false;
+var isRecording = false;
+var instruments = [];
+var timing = [];
+window.addEventListener('keydown', organizer);

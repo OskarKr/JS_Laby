@@ -49,3 +49,54 @@ kbd {
     letter-spacing: 0.1rem;
     color: #40E0D0;
 }
+
+.record-block {
+    border: .4rem solid rgba(255, 255, 255);
+    border-radius: .5rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+    padding: 1rem .5rem;
+    transition: all .07s ease;
+    width: 10rem;
+    text-align: center;
+    color: white;
+    background: rgba(197, 0, 0, 0.4);
+    text-shadow: 0 0 .5rem black;
+  }
+  
+  .record-text {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    color: #ffffff;
+  }
+  
+  .recording {
+    transform: scale(1.1);
+    border-color: #ffffff;
+    box-shadow: 0 0 1rem rgba(56, 197, 0, 0.4);
+    background: rgba(56, 197, 0, 0.4);
+  }
+  
+  
+  .play-block {
+    opacity: 0.3;
+    border: .4rem solid black;
+    border-radius: .5rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+    padding: 1rem .5rem;
+    transition: all .07s ease;
+    width: 10rem;
+    text-align: center;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    text-shadow: 0 0 .5rem black;
+  }
+  
+  .playing-song {
+    transform: scale(1.1);
+    opacity: 1 !important;
+    box-shadow: 0 0 1rem rgba(197, 118, 0, 0.4);
+    background: rgba(197, 118, 0, 0.4) !important;
+  }
