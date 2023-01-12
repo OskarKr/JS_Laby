@@ -1,0 +1,49 @@
+.white {
+    background-color: white;
+  }
+  
+  .yellow {
+    background-color: yellow;
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+  .blue {
+    background-color: rgb(91, 91, 235);
+  }
+  
+  .pink {
+    background-color: pink;
+  }
+
+  #notes-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .note-title {
+    margin: 0;
+    padding: 10px;
+  }
+  
+  .note-content {
+    margin: 0;
+    padding: 10px;
+  }
+  
+  .note-date {
+    margin: 0;
+    padding: 10px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .pinned {
+    background-color: #f1f1f1;
+  }
