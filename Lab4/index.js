@@ -150,4 +150,5 @@ document.querySelector("#new-note-form").addEventListener("submit", function(e) 
  
     displayNotes();
 
+    
 });
