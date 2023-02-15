@@ -139,11 +139,10 @@ document.querySelector("#new-note-form").addEventListener("submit", function(e) 
 
   let noteItem = document.createElement("li");
   noteItem.innerHTML = `
-    <h2 class="note-title ${note.color} ${pin}">${note.title}</h2>
-    <p class="note-content ${note.color}">${note.content}</p>
-    <p class="note-date ${note.color}">${note.date}</p>
-    <button class="edit-button" data-index=${i}>Edit</button>
-    <button class="delete-button" data-index=${i}>Delete</button>
+    <h2 class="note-title ${notes.color} ${newNotePin}">${notes.title}</h2>
+    <p class="note-content ${notes.color}">${notes.content}</p>
+    <p class="note-date ${notes.color}">${notes.date}</p>
+    
   `;
 
   // Call the displayNotes function to update the list on the page
