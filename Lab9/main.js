@@ -56,6 +56,7 @@ function loadDataOnStartup() {
   }
 }
 
+
 window.onload = function () {
   loadDataOnStartup();
 };
